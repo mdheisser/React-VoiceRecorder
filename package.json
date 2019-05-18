@@ -10,7 +10,11 @@
     "react": "16.8.3",
     "react-native": "0.59.8",
     "react-native-gesture-handler": "^1.2.1",
-    "react-navigation": "^3.10.2"
+    "react-navigation": "^3.10.2",
+    "react-native-audio": "^4.3.0",
+    "react-native-fs": "^2.13.3",
+    "react-native-simple-toast": "0.0.8",
+    "react-native-sound": "^0.10.12"
   },
   "devDependencies": {
     "@babel/core": "^7.4.4",
