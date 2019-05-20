@@ -9,6 +9,7 @@ import {
   Platform,
   Image,
 } from 'react-native';
+import LinearGradient from 'react-native-linear-gradient';
 
 import Sound from 'react-native-sound';
 import {AudioRecorder, AudioUtils} from 'react-native-audio';
@@ -183,6 +184,7 @@ class Recorder extends Component {
   render() {
     return (
       <SafeAreaView style={styles.container}>
+        <LinearGradient colors={['#CD853F','#F4A460', '#FF8C00']} style={{flex:1}}>
         {this.renderBack(images.back, () => {
           if (sound !== null) {
             sound.stop(() => {
@@ -218,6 +220,7 @@ class Recorder extends Component {
             this._stop()
           })}
         </View>
+        </LinearGradient>
       </SafeAreaView>
     );
   }
