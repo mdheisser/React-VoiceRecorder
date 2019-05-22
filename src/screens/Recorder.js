@@ -24,6 +24,12 @@ class Recorder extends Component {
     header: null
   };
 
+  fileAdded = () => {
+    const {state} = this.props.navigation;
+    const params = state.params || {};
+    params.fileAdded();
+  };
+
   state = {
     currentTime: 0.0,
     recording: false,
@@ -108,6 +114,7 @@ class Recorder extends Component {
         this._finishRecording(true, filePath);
       }
       Toast.show('Recording Saved');
+      this.fileAdded();
       return filePath;
     } catch (error) {
       console.log(error);
@@ -183,45 +190,47 @@ class Recorder extends Component {
 
   render() {
     return (
-      <SafeAreaView style={styles.container}>
-        <LinearGradient colors={['#CD853F','#F4A460', '#FF8C00']} style={{flex:1}}>
-        {this.renderBack(images.back, () => {
-          if (sound !== null) {
-            sound.stop(() => {
+
+      <LinearGradient colors={['#CD853F', '#F4A460', '#FF8C00']} style={{flex: 1}}>
+        <SafeAreaView style={styles.container}>
+          {this.renderBack(images.back, () => {
+            if (sound !== null) {
+              sound.stop(() => {
+                this.props.navigation.pop();
+              });
+            } else {
               this.props.navigation.pop();
-            });
-          } else {
-            this.props.navigation.pop();
-          }
-        })}
-        <View style={{flex: 0.5, justifyContent: 'center', alignItems: 'center'}}>
-          <Text style={styles.progressText}>{this.showCountDown(this.state.currentTime)}</Text>
-        </View>
-        <View style={styles.controls}>
-          {this.state.recording === false && this.renderButton(images.record, () => {
-            if (sound !== null) {
-              sound.stop(() => {
+            }
+          })}
+          <View style={{flex: 0.5, justifyContent: 'center', alignItems: 'center'}}>
+            <Text style={styles.progressText}>{this.showCountDown(this.state.currentTime)}</Text>
+          </View>
+          <View style={styles.controls}>
+            {this.state.recording === false && this.renderButton(images.record, () => {
+              if (sound !== null) {
+                sound.stop(() => {
+                  this._record()
+                });
+              } else {
                 this._record()
-              });
-            } else {
-              this._record()
-            }
-          }, this.state.recording)}
-          {this.state.recording === false && this.state.stoppedRecording && this.renderButton(images.play, () => {
-            if (sound !== null) {
-              sound.stop(() => {
+              }
+            }, this.state.recording)}
+            {this.state.recording === false && this.state.stoppedRecording && this.renderButton(images.play, () => {
+              if (sound !== null) {
+                sound.stop(() => {
+                  this._play()
+                });
+              } else {
                 this._play()
-              });
-            } else {
-              this._play()
-            }
-          })}
-          {this.state.recording && this.renderButton(images.stop, () => {
-            this._stop()
-          })}
-        </View>
-        </LinearGradient>
-      </SafeAreaView>
+              }
+            })}
+            {this.state.recording && this.renderButton(images.stop, () => {
+              this._stop()
+            })}
+          </View>
+        </SafeAreaView>
+      </LinearGradient>
+
     );
   }
 }
